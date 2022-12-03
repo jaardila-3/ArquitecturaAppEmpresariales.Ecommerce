@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ArquitecturaAppEmpresariales.Application.Main\ArquitecturaAppEmpresariales.Application.Main.csproj" />
+    <ProjectReference Include="..\ArquitecturaAppEmpresariales.Ecommerce.Application.DTO\ArquitecturaAppEmpresariales.Ecommerce.Application.DTO.csproj" />
+    <ProjectReference Include="..\ArquitecturaAppEmpresariales.Ecommerce.Application.Interface\ArquitecturaAppEmpresariales.Ecommerce.Application.Interface.csproj" />
+    <ProjectReference Include="..\ArquitecturaAppEmpresariales.Ecommerce.Domain.Core\ArquitecturaAppEmpresariales.Ecommerce.Domain.Core.csproj" />
+    <ProjectReference Include="..\ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Data\ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Data.csproj" />
+    <ProjectReference Include="..\ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Repository\ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Repository.csproj" />
+    <ProjectReference Include="..\ArquitecturaAppEmpresariales.Ecommerce.Transversal.Mapper\ArquitecturaAppEmpresariales.Ecommerce.Transversal.Mapper.csproj" />
+  </ItemGroup>
+
+</Project>
