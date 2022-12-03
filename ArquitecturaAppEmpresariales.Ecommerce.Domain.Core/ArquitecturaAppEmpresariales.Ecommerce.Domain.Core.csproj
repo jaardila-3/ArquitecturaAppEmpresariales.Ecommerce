@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ArquitecturaAppEmpresariales.Ecommerce.Domain.Entity\ArquitecturaAppEmpresariales.Ecommerce.Domain.Entity.csproj" />
+    <ProjectReference Include="..\ArquitecturaAppEmpresariales.Ecommerce.Domain.Interface\ArquitecturaAppEmpresariales.Ecommerce.Domain.Interface.csproj" />
+    <ProjectReference Include="..\ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Interface\ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Interface.csproj" />
+  </ItemGroup>
+
+</Project>
