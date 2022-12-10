@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
 {
     [Route("api/[controller]/[action]")]
+    [Produces("application/json")]
     [ApiController]
     public class CustomersController : ControllerBase
     {
@@ -16,7 +17,31 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
         }
 
         #region métodos Sincronos
+        /// <summary>
+        /// Método para insertar un cliente de manera sincrona en el aplicativo
+        /// </summary>
+        /// <param name="customersDto"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Sample request: Campos mínimos obligatorios
+        ///
+        ///     POST
+        ///     {
+        ///        "customerId": "string",
+        ///        "companyName": "string",
+        ///     }
+        /// </remarks>
+        /// <response code="200"> Return:
+        /// {
+        ///     "data": true,
+        ///     "isSuccess": true,
+        ///     "message": "Registro Exitoso!!!"
+        /// }
+        /// </response>
+        /// <response code="400">Return: Message Exception</response>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Insert([FromBody] CustomersDto customersDto)
         {
             if (customersDto == null) return BadRequest();

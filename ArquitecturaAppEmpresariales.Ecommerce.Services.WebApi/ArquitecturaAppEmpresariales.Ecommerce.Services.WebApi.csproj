@@ -22,4 +22,9 @@
     <ProjectReference Include="..\ArquitecturaAppEmpresariales.Ecommerce.Transversal.Mapper\ArquitecturaAppEmpresariales.Ecommerce.Transversal.Mapper.csproj" />
   </ItemGroup>
 
+  <!--comentarios SWAGGER XML-->
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
 </Project>

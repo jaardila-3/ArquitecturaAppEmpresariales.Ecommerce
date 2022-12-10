@@ -1,8 +1,12 @@
-﻿namespace ArquitecturaAppEmpresariales.Ecommerce.Application.DTO
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ArquitecturaAppEmpresariales.Ecommerce.Application.DTO
 {
     public class CustomersDto
     {
+        [Required]
         public string CustomerId { get; set; } = string.Empty;
+        [Required]
         public string CompanyName { get; set; } = string.Empty;
         public string? ContactName { get; set; }
         public string? ContactTitle { get; set; }
