@@ -10,21 +10,28 @@ using ArquitecturaAppEmpresariales.Ecommerce.Transversal.Mapper;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
+var urlAceptadas = builder.Configuration.GetSection("AllowedOriginsCORS").Value.Split(",");
+
 
 // Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
-//automapper y DI
-builder.Services.AddAutoMapper(x => x.AddProfile(new MappingsProfile()));
-builder.Services.AddSingleton<IConnectionFactory, ConnectionFactory>();
-builder.Services.AddScoped<ICustomerApplication, CustomerApplication>();
-builder.Services.AddScoped<ICustomersDomain, CustomersDomain>();
-builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+//CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins(urlAceptadas)
+                                .AllowAnyHeader()
+                                .AllowAnyMethod();
+                      });
+});
 
 //swagger generator: https://learn.microsoft.com/es-es/aspnet/core/tutorials/web-api-help-pages-using-swagger?view=aspnetcore-6.0
 builder.Services.AddSwaggerGen(options =>
@@ -53,6 +60,13 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
+//automapper y DI
+builder.Services.AddAutoMapper(x => x.AddProfile(new MappingsProfile()));
+builder.Services.AddSingleton<IConnectionFactory, ConnectionFactory>();
+builder.Services.AddScoped<ICustomerApplication, CustomerApplication>();
+builder.Services.AddScoped<ICustomersDomain, CustomersDomain>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -68,6 +82,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

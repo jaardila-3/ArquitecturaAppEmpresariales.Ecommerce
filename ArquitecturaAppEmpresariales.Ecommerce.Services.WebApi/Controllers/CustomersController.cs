@@ -1,5 +1,6 @@
 ﻿using ArquitecturaAppEmpresariales.Ecommerce.Application.DTO;
 using ArquitecturaAppEmpresariales.Ecommerce.Application.Interface;
+using ArquitecturaAppEmpresariales.Ecommerce.Transversal.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
@@ -20,28 +21,22 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
         /// <summary>
         /// Método para insertar un cliente de manera sincrona en el aplicativo
         /// </summary>
-        /// <param name="customersDto"></param>
-        /// <returns></returns>
+        /// <param name="customersDto">Estructura datos del cliente</param>
+        /// <returns>Una estructura de respuesta o un mensaje</returns>
         /// <remarks>
         /// Sample request: Campos mínimos obligatorios
         ///
         ///     POST
         ///     {
-        ///        "customerId": "string",
+        ///        "customerId": "strin", (max 5 characters)
         ///        "companyName": "string",
         ///     }
         /// </remarks>
-        /// <response code="200"> Return:
-        /// {
-        ///     "data": true,
-        ///     "isSuccess": true,
-        ///     "message": "Registro Exitoso!!!"
-        /// }
-        /// </response>
-        /// <response code="400">Return: Message Exception</response>
+        /// <response code="200"> Retorna la siguiente estructura.</response>
+        /// <response code="400">Return: Message Exception.</response>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public IActionResult Insert([FromBody] CustomersDto customersDto)
         {
             if (customersDto == null) return BadRequest();
