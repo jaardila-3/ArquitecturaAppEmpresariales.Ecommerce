@@ -5,6 +5,7 @@ using ArquitecturaAppEmpresariales.Ecommerce.Domain.Interface;
 using ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Data;
 using ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Interface;
 using ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Repository;
+using ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Helpers;
 using ArquitecturaAppEmpresariales.Ecommerce.Transversal.Common;
 using ArquitecturaAppEmpresariales.Ecommerce.Transversal.Mapper;
 using Microsoft.OpenApi.Models;
@@ -32,6 +33,10 @@ builder.Services.AddCors(options =>
                                 .AllowAnyMethod();
                       });
 });
+
+//JWT
+var appSettingsSection = builder.Configuration.GetSection("Config");
+builder.Services.Configure<AppSettings>(appSettingsSection);
 
 //swagger generator: https://learn.microsoft.com/es-es/aspnet/core/tutorials/web-api-help-pages-using-swagger?view=aspnetcore-6.0
 builder.Services.AddSwaggerGen(options =>
@@ -66,6 +71,9 @@ builder.Services.AddSingleton<IConnectionFactory, ConnectionFactory>();
 builder.Services.AddScoped<ICustomerApplication, CustomerApplication>();
 builder.Services.AddScoped<ICustomersDomain, CustomersDomain>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IUsersApplication, UsersApplication>();
+builder.Services.AddScoped<IUsersDomain, UsersDomain>();
+builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 
 var app = builder.Build();
 
@@ -83,6 +91,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseCors(MyAllowSpecificOrigins);
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
