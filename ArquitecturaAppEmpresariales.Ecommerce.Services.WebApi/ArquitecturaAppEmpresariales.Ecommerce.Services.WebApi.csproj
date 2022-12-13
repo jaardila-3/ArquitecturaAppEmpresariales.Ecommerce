@@ -21,6 +21,7 @@
     <ProjectReference Include="..\ArquitecturaAppEmpresariales.Ecommerce.Domain.Core\ArquitecturaAppEmpresariales.Ecommerce.Domain.Core.csproj" />
     <ProjectReference Include="..\ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Data\ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Data.csproj" />
     <ProjectReference Include="..\ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Repository\ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Repository.csproj" />
+    <ProjectReference Include="..\ArquitecturaAppEmpresariales.Ecommerce.Transversal.Logging\ArquitecturaAppEmpresariales.Ecommerce.Transversal.Logging.csproj" />
     <ProjectReference Include="..\ArquitecturaAppEmpresariales.Ecommerce.Transversal.Mapper\ArquitecturaAppEmpresariales.Ecommerce.Transversal.Mapper.csproj" />
   </ItemGroup>
 

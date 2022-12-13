@@ -11,12 +11,12 @@ namespace ArquitecturaAppEmpresariales.Application.Main
     {
         private readonly ICustomersDomain _customersDomain;
         private readonly IMapper _mapper;
-        //private readonly IAppLogger<CustomerApplication> _logger;
-        public CustomerApplication(ICustomersDomain customersDomain, IMapper mapper/*, IAppLogger<CustomerApplication> logger*/)
+        private readonly IAppLogger<CustomerApplication> _logger;
+        public CustomerApplication(ICustomersDomain customersDomain, IMapper mapper, IAppLogger<CustomerApplication> logger)
         {
             _customersDomain = customersDomain;
             _mapper = mapper;
-            //_logger = logger;
+            _logger = logger;
         }
 
         #region Métodos Síncronos
@@ -111,13 +111,13 @@ namespace ArquitecturaAppEmpresariales.Application.Main
                 {
                     response.IsSuccess = true;
                     response.Message = "Consulta Exitosa!!!";
-                    //_logger.LogInformation("Consulta Exitosa!!!");
+                    _logger.LogInformation("Consulta Exitosa!!!");
                 }
             }
             catch (Exception e)
             {
                 response.Message = e.Message;
-                //_logger.LogError(e.Message);
+                _logger.LogError(e.Message);
             }
             return response;
         }

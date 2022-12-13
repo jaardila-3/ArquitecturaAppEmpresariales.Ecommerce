@@ -8,6 +8,7 @@ using ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Repository;
 using ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Helpers;
 using ArquitecturaAppEmpresariales.Ecommerce.Transversal.Common;
 using ArquitecturaAppEmpresariales.Ecommerce.Transversal.Mapper;
+using ArquitecturaAppEmpresariales.Ecommerce.Transversal.Logging;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
@@ -45,6 +46,7 @@ builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IUsersApplication, UsersApplication>();
 builder.Services.AddScoped<IUsersDomain, UsersDomain>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+builder.Services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>)); // son genéricas
 
 //JWT
 var appSettingsSection = builder.Configuration.GetSection("Config");
@@ -63,7 +65,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 OnTokenValidated = context =>
                 {
                     //recupera los datos de los claims que vienen en context.Principal
-                    var userId = int.Parse(context.Principal.Identity.Name);
+                    var userId = int.Parse(context!.Principal!.Identity!.Name);
                     return Task.CompletedTask;
                 },
                 OnAuthenticationFailed = context =>
@@ -76,7 +78,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 }
             };
             x.RequireHttpsMetadata = false;
-            x.SaveToken = false;
+            x.SaveToken = false; //propiedad que define si el token debe almacenarse en AuthenticationProperties después de una autorización exitosa
             x.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
