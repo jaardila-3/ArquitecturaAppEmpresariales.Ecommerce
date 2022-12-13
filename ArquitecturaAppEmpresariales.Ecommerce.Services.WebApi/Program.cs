@@ -10,11 +10,13 @@ using ArquitecturaAppEmpresariales.Ecommerce.Transversal.Common;
 using ArquitecturaAppEmpresariales.Ecommerce.Transversal.Mapper;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 var urlAceptadas = builder.Configuration.GetSection("AllowedOriginsCORS").Value.Split(",");
-
 
 // Add services to the container.
 
@@ -34,9 +36,59 @@ builder.Services.AddCors(options =>
                       });
 });
 
+//automapper y DI
+builder.Services.AddAutoMapper(x => x.AddProfile(new MappingsProfile()));
+builder.Services.AddSingleton<IConnectionFactory, ConnectionFactory>();
+builder.Services.AddScoped<ICustomerApplication, CustomerApplication>();
+builder.Services.AddScoped<ICustomersDomain, CustomersDomain>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IUsersApplication, UsersApplication>();
+builder.Services.AddScoped<IUsersDomain, UsersDomain>();
+builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+
 //JWT
 var appSettingsSection = builder.Configuration.GetSection("Config");
 builder.Services.Configure<AppSettings>(appSettingsSection);
+//configure JWT
+var appsettings = appSettingsSection.Get<AppSettings>();
+var key = Encoding.ASCII.GetBytes(appsettings.Secret);
+var Issuer = appsettings.Issuer;
+var Audience = appsettings.Audience;
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(x =>
+        {
+            x.Events = new JwtBearerEvents
+            {
+                OnTokenValidated = context =>
+                {
+                    //recupera los datos de los claims que vienen en context.Principal
+                    var userId = int.Parse(context.Principal.Identity.Name);
+                    return Task.CompletedTask;
+                },
+                OnAuthenticationFailed = context =>
+                {
+                    if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+                    {
+                        context.Response.Headers.Add("Token-Expired", "true");
+                    }
+                    return Task.CompletedTask;
+                }
+            };
+            x.RequireHttpsMetadata = false;
+            x.SaveToken = false;
+            x.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = true,
+                ValidIssuer = Issuer,
+                ValidateAudience = true,
+                ValidAudience = Audience,
+                ValidateLifetime= true, //valida tiempo de vida del token
+                ClockSkew = TimeSpan.Zero //diferencia entre horas
+            };
+        });
 
 //swagger generator: https://learn.microsoft.com/es-es/aspnet/core/tutorials/web-api-help-pages-using-swagger?view=aspnetcore-6.0
 builder.Services.AddSwaggerGen(options =>
@@ -63,17 +115,31 @@ builder.Services.AddSwaggerGen(options =>
     // using System.Reflection;
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+    //input para el token
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Encabezado de autorización JWT utilizando el esquema Bearer."
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                                    {
+                                        {
+                                              new OpenApiSecurityScheme
+                                              {
+                                                  Reference = new OpenApiReference
+                                                  {
+                                                      Type = ReferenceType.SecurityScheme,
+                                                      Id = "Bearer"
+                                                  }
+                                              },
+                                             new List<string>()
+                                        }
+                                    });
 });
-
-//automapper y DI
-builder.Services.AddAutoMapper(x => x.AddProfile(new MappingsProfile()));
-builder.Services.AddSingleton<IConnectionFactory, ConnectionFactory>();
-builder.Services.AddScoped<ICustomerApplication, CustomerApplication>();
-builder.Services.AddScoped<ICustomersDomain, CustomersDomain>();
-builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-builder.Services.AddScoped<IUsersApplication, UsersApplication>();
-builder.Services.AddScoped<IUsersDomain, UsersDomain>();
-builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 
 var app = builder.Build();
 

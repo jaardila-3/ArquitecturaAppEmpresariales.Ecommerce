@@ -1,10 +1,12 @@
 ﻿using ArquitecturaAppEmpresariales.Ecommerce.Application.DTO;
 using ArquitecturaAppEmpresariales.Ecommerce.Application.Interface;
 using ArquitecturaAppEmpresariales.Ecommerce.Transversal.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]/[action]")]
     [Produces("application/json")]
     [ApiController]

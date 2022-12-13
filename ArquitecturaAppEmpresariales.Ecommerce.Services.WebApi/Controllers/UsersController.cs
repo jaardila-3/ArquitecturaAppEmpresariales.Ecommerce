@@ -26,6 +26,11 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
             _appSettings = appSettings.Value;
         }
 
+        /// <summary>
+        /// jorge.ardilar 240416ja
+        /// </summary>
+        /// <param name="usersDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         public IActionResult Authenticate([FromBody] UsersDto usersDto)
