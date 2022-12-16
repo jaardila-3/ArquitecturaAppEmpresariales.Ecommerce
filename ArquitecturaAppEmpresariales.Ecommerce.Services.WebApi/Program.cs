@@ -14,6 +14,7 @@ using System.Reflection;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using AutoMapper;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
@@ -37,8 +38,15 @@ builder.Services.AddCors(options =>
                       });
 });
 
-//automapper y DI
-builder.Services.AddAutoMapper(x => x.AddProfile(new MappingsProfile()));
+//Auto Mapper Configurations
+var mapperConfig = new MapperConfiguration(mc =>
+{
+    mc.AddProfile(new MappingsProfile());
+});
+IMapper mapper = mapperConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
+
+//DI
 builder.Services.AddSingleton<IConnectionFactory, ConnectionFactory>();
 builder.Services.AddScoped<ICustomerApplication, CustomerApplication>();
 builder.Services.AddScoped<ICustomersDomain, CustomersDomain>();
@@ -87,7 +95,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 ValidIssuer = Issuer,
                 ValidateAudience = true,
                 ValidAudience = Audience,
-                ValidateLifetime= true, //valida tiempo de vida del token
+                ValidateLifetime = true, //valida tiempo de vida del token
                 ClockSkew = TimeSpan.Zero //diferencia entre horas
             };
         });
