@@ -14,7 +14,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     public class UsersController : Controller
     {
         private readonly IUsersApplication _usersApplication;
@@ -31,7 +31,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
         /// </summary>
         /// <param name="usersDto"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("Authenticate")]
         [AllowAnonymous]
         public IActionResult Authenticate([FromBody] UsersDto usersDto)
         {

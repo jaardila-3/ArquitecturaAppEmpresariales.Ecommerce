@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
 {
     [Authorize]
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]")]
     [Produces("application/json")]
     [ApiController]
     public class CustomersController : ControllerBase
@@ -36,7 +36,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
         /// </remarks>
         /// <response code="200"> Retorna la siguiente estructura.</response>
         /// <response code="400">Return: Message Exception.</response>
-        [HttpPost]
+        [HttpPost("Insert")]
         [ProducesResponseType(typeof(Response<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         public IActionResult Insert([FromBody] CustomersDto customersDto)
@@ -49,7 +49,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
             return BadRequest(response.Message);
         }
 
-        [HttpPut]
+        [HttpPut("Update")]
         public IActionResult Update([FromBody] CustomersDto customersDto)
         {
             if (customersDto == null) return BadRequest();
@@ -60,7 +60,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
             return BadRequest(response.Message);
         }
 
-        [HttpDelete("{customerId}")]
+        [HttpDelete("Delete/{customerId}")]
         public IActionResult Delete(string customerId)
         {
             if (string.IsNullOrEmpty(customerId)) return BadRequest();
@@ -71,7 +71,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
             return BadRequest(response.Message);
         }
 
-        [HttpGet("{customerId}")]
+        [HttpGet("Get/{customerId}")]
         public IActionResult Get(string customerId)
         {
             if (string.IsNullOrEmpty(customerId)) return BadRequest();
@@ -82,7 +82,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
             return BadRequest(response.Message);
         }
 
-        [HttpGet]
+        [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
             var response = _customerApplication.GetAll();
@@ -94,7 +94,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
 
         #region "Métodos Asincronos"
 
-        [HttpPost]
+        [HttpPost("InsertAsync")]
         public async Task<IActionResult> InsertAsincrono([FromBody] CustomersDto customersDto)
         {
             if (customersDto == null)
@@ -106,7 +106,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
             return BadRequest(response.Message);
         }
 
-        [HttpPut]
+        [HttpPut("UpdateAsync")]
         public async Task<IActionResult> UpdateAsincrono([FromBody] CustomersDto customersDto)
         {
             if (customersDto == null)
@@ -118,7 +118,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
             return BadRequest(response.Message);
         }
 
-        [HttpDelete("{customerId}")]
+        [HttpDelete("DeleteAsync/{customerId}")]
         public async Task<IActionResult> DeleteAsincrono(string customerId)
         {
             if (string.IsNullOrEmpty(customerId))
@@ -130,7 +130,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
             return BadRequest(response.Message);
         }
 
-        [HttpGet("{customerId}")]
+        [HttpGet("GetAsync/{customerId}")]
         public async Task<IActionResult> GetAsincrono(string customerId)
         {
             if (string.IsNullOrEmpty(customerId))
@@ -142,7 +142,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
             return BadRequest(response.Message);
         }
 
-        [HttpGet]
+        [HttpGet("GetAllAsync")]
         public async Task<IActionResult> GetAllAsincrono()
         {
             var response = await _customerApplication.GetAllAsync();
