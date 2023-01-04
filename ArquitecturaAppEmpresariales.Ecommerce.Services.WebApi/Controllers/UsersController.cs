@@ -27,7 +27,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
         }
 
         /// <summary>
-        /// jorge.ardilar 240416ja
+        /// jor*****lar 2****ja
         /// </summary>
         /// <param name="usersDto"></param>
         /// <returns></returns>
@@ -45,10 +45,10 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
                 }
                 else
                 {
-                    return NotFound(response.Message);
+                    return NotFound(response);
                 }
             }
-            return BadRequest(response.Message);
+            return BadRequest(response);
         }
 
         private string GenerateToken(Response<UsersDto> usersDto)

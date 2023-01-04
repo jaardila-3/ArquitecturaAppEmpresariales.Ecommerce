@@ -3,6 +3,7 @@ using ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Feature;
 using ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Injection;
 using ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Mapper;
 using ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Swagger;
+using ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Validator;
 
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -19,6 +20,8 @@ builder.Services.AddInjectionModule();
 builder.Services.AddAuthenticationModule(builder.Configuration);
 //swagger
 builder.Services.AddSwaggerModule();
+//fluent validator
+builder.Services.AddValidatorModule();
 #endregion
 
 var app = builder.Build();

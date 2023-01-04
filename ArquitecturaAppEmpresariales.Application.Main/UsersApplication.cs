@@ -1,4 +1,5 @@
-﻿using ArquitecturaAppEmpresariales.Ecommerce.Application.DTO;
+﻿using ArquitecturaAppEmpresariales.Application.Validator;
+using ArquitecturaAppEmpresariales.Ecommerce.Application.DTO;
 using ArquitecturaAppEmpresariales.Ecommerce.Application.Interface;
 using ArquitecturaAppEmpresariales.Ecommerce.Domain.Interface;
 using ArquitecturaAppEmpresariales.Ecommerce.Transversal.Common;
@@ -10,19 +11,23 @@ public class UsersApplication : IUsersApplication
 {
     private readonly IUsersDomain _usersDomain;
     private readonly IMapper _mapper;
+    private readonly UsersDtoValidator _usersDtoValidator;
 
-    public UsersApplication(IUsersDomain usersDomain, IMapper mapper)
+    public UsersApplication(IUsersDomain usersDomain, IMapper mapper, UsersDtoValidator usersDtoValidator)
     {
         _usersDomain = usersDomain;
         _mapper = mapper;
+        _usersDtoValidator = usersDtoValidator;
     }
 
     public Response<UsersDto> Authenticate(string username, string password)
     {
         var response = new Response<UsersDto>();
-        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+        var validation = _usersDtoValidator.Validate(new UsersDto() { UserName= username, Password = password });
+        if (!validation.IsValid)
         {
-            response.Message = "Parámetros no pueden ser vacíos";
+            response.Message = "Errores de validación";
+            response.Errors = validation.Errors;
             return response;
         }
         try

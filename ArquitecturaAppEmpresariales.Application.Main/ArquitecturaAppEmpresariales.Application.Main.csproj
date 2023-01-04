@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ArquitecturaAppEmpresariales.Application.Validator\ArquitecturaAppEmpresariales.Application.Validator.csproj" />
     <ProjectReference Include="..\ArquitecturaAppEmpresariales.Ecommerce.Application.DTO\ArquitecturaAppEmpresariales.Ecommerce.Application.DTO.csproj" />
     <ProjectReference Include="..\ArquitecturaAppEmpresariales.Ecommerce.Application.Interface\ArquitecturaAppEmpresariales.Ecommerce.Application.Interface.csproj" />
     <ProjectReference Include="..\ArquitecturaAppEmpresariales.Ecommerce.Domain.Entity\ArquitecturaAppEmpresariales.Ecommerce.Domain.Entity.csproj" />
