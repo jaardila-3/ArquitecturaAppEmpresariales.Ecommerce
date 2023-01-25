@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers.v1
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [Produces("application/json")]
     [ApiVersion("1.0")]
     [ApiController]

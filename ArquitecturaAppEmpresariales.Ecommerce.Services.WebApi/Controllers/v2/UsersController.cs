@@ -14,7 +14,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers.v2
 {
     [Authorize]
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("2.0")]
     [Produces("application/json")]
     public class UsersController : Controller
