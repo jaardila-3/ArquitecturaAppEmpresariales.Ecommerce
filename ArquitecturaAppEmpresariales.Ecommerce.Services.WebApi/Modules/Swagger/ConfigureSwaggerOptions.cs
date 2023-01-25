@@ -48,6 +48,10 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Swagger
                 }
             };
 
+            if (description.IsDeprecated)
+            {
+                info.Description += " => Esta versión de la API ha quedado obsoleta.";
+            }
             return info;
         }
     }
