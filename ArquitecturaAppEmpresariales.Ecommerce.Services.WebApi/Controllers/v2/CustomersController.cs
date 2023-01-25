@@ -4,11 +4,12 @@ using ArquitecturaAppEmpresariales.Ecommerce.Transversal.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
+namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers.v2
 {
     [Authorize]
     [Route("api/[controller]")]
     [Produces("application/json")]
+    [ApiVersion("2.0")]
     [ApiController]
     public class CustomersController : ControllerBase
     {
@@ -49,9 +50,13 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
             return BadRequest(response.Message);
         }
 
-        [HttpPut("Update")]
-        public IActionResult Update([FromBody] CustomersDto customersDto)
+        [HttpPut("Update/{customerId}")]
+        public IActionResult Update(string customerId, [FromBody] CustomersDto customersDto)
         {
+            var customerdto = _customerApplication.Get(customerId);
+            if (customerdto.Data == null)
+                return NotFound(customerdto.Message);
+
             if (customersDto == null) return BadRequest();
 
             var response = _customerApplication.Update(customersDto);
@@ -106,9 +111,13 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers
             return BadRequest(response.Message);
         }
 
-        [HttpPut("UpdateAsync")]
-        public async Task<IActionResult> UpdateAsincrono([FromBody] CustomersDto customersDto)
+        [HttpPut("UpdateAsync/{customerId}")]
+        public async Task<IActionResult> UpdateAsincrono(string customerId, [FromBody] CustomersDto customersDto)
         {
+            var customerdto = await _customerApplication.GetAsync(customerId);
+            if (customerdto.Data == null)
+                return NotFound(customerdto.Message);
+
             if (customersDto == null)
                 return BadRequest();
             var response = await _customerApplication.UpdateAsync(customersDto);

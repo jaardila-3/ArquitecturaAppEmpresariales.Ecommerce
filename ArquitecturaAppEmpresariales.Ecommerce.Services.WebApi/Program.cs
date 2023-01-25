@@ -4,6 +4,8 @@ using ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Injection;
 using ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Mapper;
 using ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Swagger;
 using ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Validator;
+using ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Versioning;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -18,6 +20,8 @@ builder.Services.AddMapperModule();
 builder.Services.AddInjectionModule();
 //JWT
 builder.Services.AddAuthenticationModule(builder.Configuration);
+//versioning
+builder.Services.AddVersioningModule();
 //swagger
 builder.Services.AddSwaggerModule();
 //fluent validator
@@ -32,8 +36,13 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "API Ecommerce v1");
-        //options.RoutePrefix = string.Empty;
+        // build a swagger endpoint for each discovered API version
+        var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+        foreach (var description in provider.ApiVersionDescriptions)
+        {
+            options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
+            //options.RoutePrefix = string.Empty;
+        }
     });
 }
 

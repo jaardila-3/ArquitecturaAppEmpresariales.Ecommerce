@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 
 namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Swagger
@@ -8,30 +10,16 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Swagger
     {
         public static IServiceCollection AddSwaggerModule(this IServiceCollection services)
         {
+            //agregamos por DI la configuración de info y versionamiento que hicimos en ConfigureSwaggerOptions
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             //swagger generator: https://learn.microsoft.com/es-es/aspnet/core/tutorials/web-api-help-pages-using-swagger?view=aspnetcore-6.0
             return services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Version = "v1",
-                    Title = "Curso de arquitecturas empresariales",
-                    Description = "API Ecommerce del curso Arquitectura de Aplicaciones Empresariales con .NET Core de Udemy, con el instructor Alex Espejo",
-                    TermsOfService = new Uri("https://example.com/terms"),
-                    Contact = new OpenApiContact
-                    {
-                        Name = "Jorge Ardila",
-                        Email = "jorge.ardila1641@correo.policia.gov.co",
-                        Url = new Uri("https://example.com/contact")
-                    },
-                    License = new OpenApiLicense
-                    {
-                        Name = "Usar bajo licencia",
-                        Url = new Uri("https://example.com/license")
-                    }
-                });
                 //add XML in .csproj
-                // using System.Reflection;
+                //using System.Reflection;
+                //establece los comentarios para el Swagger JSON y su UI
                 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 
@@ -55,7 +43,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Swagger
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     { securityScheme, new List<string>() { } }
-                });                
+                });
             });
 
         }
