@@ -1,11 +1,14 @@
 using ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Authentication;
 using ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Feature;
+using ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.HealthCheck;
 using ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Injection;
 using ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Mapper;
 using ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Swagger;
 using ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Validator;
 using ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Versioning;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -26,6 +29,8 @@ builder.Services.AddVersioningModule();
 builder.Services.AddSwaggerModule();
 //fluent validator
 builder.Services.AddValidatorModule();
+//Health Check
+builder.Services.AddHealthCheckModule(builder.Configuration);
 #endregion
 
 var app = builder.Build();
@@ -52,4 +57,12 @@ app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+//Health Check
+app.MapHealthChecksUI();
+app.MapHealthChecks("/health", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+{
+    Predicate = _ => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
+
 app.Run();
