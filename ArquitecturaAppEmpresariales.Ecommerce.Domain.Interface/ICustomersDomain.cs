@@ -13,6 +13,9 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Domain.Interface
         Customers Get(string customerId);
         IEnumerable<Customers> GetAll();
 
+        IEnumerable<Customers> GetAllWithPagination(int pageNumber, int pageSize);
+        int Count();
+
         #endregion
 
         #region Métodos Asíncronos
@@ -22,6 +25,9 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Domain.Interface
 
         Task<Customers> GetAsync(string customerId);
         Task<IEnumerable<Customers>> GetAllAsync();
+
+        Task<IEnumerable<Customers>> GetAllWithPaginationAsync(int pageNumber, int pageSize);
+        Task<int> CountAsync();
         #endregion
     }
 }

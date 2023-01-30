@@ -39,6 +39,16 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Domain.Core
             return _unitOfWork.Customers.GetAll();
         }
 
+        public IEnumerable<Customers> GetAllWithPagination(int pageNumber, int pageSize)
+        {
+            return _unitOfWork.Customers.GetAllWithPagination(pageNumber, pageSize);
+        }
+
+        public int Count()
+        {
+            return _unitOfWork.Customers.Count();
+        }
+
         #endregion
 
         #region Métodos Asíncronos
@@ -66,6 +76,16 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Domain.Core
         public async Task<IEnumerable<Customers>> GetAllAsync()
         {
             return await _unitOfWork.Customers.GetAllAsync();
+        }        
+
+        public async Task<IEnumerable<Customers>> GetAllWithPaginationAsync(int pageNumber, int pageSize)
+        {
+            return await _unitOfWork.Customers.GetAllWithPaginationAsync(pageNumber, pageSize);
+        }
+
+        public async Task<int> CountAsync()
+        {
+            return await _unitOfWork.Customers.CountAsync();
         }
 
         #endregion

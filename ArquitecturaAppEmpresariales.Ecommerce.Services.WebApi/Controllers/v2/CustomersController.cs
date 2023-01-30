@@ -95,6 +95,16 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers.v2
 
             return BadRequest(response.Message);
         }
+
+        [HttpGet("GetAllWithPagination")]
+        public IActionResult GetAllWithPagination([FromQuery] int pageNumber, int pageSize)
+        {
+            var response = _customerApplication.GetAllWithPagination(pageNumber, pageSize);
+            if (response.IsSuccess) return Ok(response);
+
+            return BadRequest(response.Message);
+        }
+
         #endregion
 
         #region "Métodos Asincronos"
@@ -160,6 +170,16 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Controllers.v2
 
             return BadRequest(response.Message);
         }
+
+        [HttpGet("GetAllWithPaginationAsync")]
+        public async Task<IActionResult> GetAllWithPaginationAsync([FromQuery] int pageNumber, int pageSize)
+        {
+            var response = await _customerApplication.GetAllWithPaginationAsync(pageNumber, pageSize);
+            if (response.IsSuccess) return Ok(response);
+
+            return BadRequest(response.Message);
+        }
+
         #endregion
     }
 }
