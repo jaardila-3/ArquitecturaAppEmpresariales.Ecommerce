@@ -10,14 +10,16 @@ using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
 var builder = WebApplication.CreateBuilder(args);
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 
 // Add services to the container.
 #region Módulos de servicios, métodos de extensión
-//CORS
-builder.Services.AddFeatureModule(builder.Configuration);
 //Auto Mapper Configurations
 builder.Services.AddMapperModule();
+//CORS
+builder.Services.AddFeatureModule(builder.Configuration);
 //DI
 builder.Services.AddInjectionModule();
 //JWT
@@ -52,7 +54,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseCors(MyAllowSpecificOrigins);
+app.UseCors("policyApiEcommerce");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
@@ -65,3 +67,6 @@ app.MapHealthChecks("/health", new Microsoft.AspNetCore.Diagnostics.HealthChecks
 });
 
 app.Run();
+
+//para las pruebas unitarias MsTest
+public partial class Program { };

@@ -1,7 +1,6 @@
 using ArquitecturaAppEmpresariales.Ecommerce.Application.Interface;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace ArquitecturaAppEmpresariales.Ecommerce.Application.Test
 {
@@ -30,7 +29,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Application.Test
             // Arrange
             var userName = string.Empty;
             var password = string.Empty;
-            var expected = "Errores de Validación";
+            var expected = "Errores de validación";
 
             // Act            
             var result = context!.Authenticate(userName, password);
@@ -47,8 +46,8 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Application.Test
             var context = scope.ServiceProvider.GetService<IUsersApplication>();
 
             // Arrange
-            var userName = "jorge";
-            var password = "2404";
+            var userName = "***.***";
+            var password = "*******";
             var expected = "Autenticación Exitosa!!!";
 
             // Act
@@ -68,7 +67,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Application.Test
             // Arrange
             var userName = "ALEX";
             var password = "123456899";
-            var expected = "Usuario no existe";
+            var expected = "Usuario no existe!!!";
 
             // Act
             var result = context!.Authenticate(userName, password);

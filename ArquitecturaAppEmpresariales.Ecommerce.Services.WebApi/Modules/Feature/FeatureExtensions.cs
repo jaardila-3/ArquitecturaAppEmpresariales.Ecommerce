@@ -4,14 +4,11 @@
     {
         public static IServiceCollection AddFeatureModule(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddControllers();
-            services.AddEndpointsApiExplorer();
-
-            var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+            string myPolicy = "policyApiEcommerce";
             var urlAceptadas = configuration.GetSection("AllowedOriginsCORS").Value.Split(",");
             services.AddCors(options =>
             {
-                options.AddPolicy(name: MyAllowSpecificOrigins,
+                options.AddPolicy(name: myPolicy,
                                   policy =>
                                   {
                                       policy.WithOrigins(urlAceptadas)
