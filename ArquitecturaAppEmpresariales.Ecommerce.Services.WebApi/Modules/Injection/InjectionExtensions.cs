@@ -22,6 +22,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Injecti
             services.AddScoped<IUsersDomain, UsersDomain>();
             services.AddScoped<IUsersRepository, UsersRepository>();
             services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>)); // son genéricas
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             return services;
         }
     }

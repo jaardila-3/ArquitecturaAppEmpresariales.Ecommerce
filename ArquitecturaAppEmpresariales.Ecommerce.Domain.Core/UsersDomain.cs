@@ -6,16 +6,16 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Domain.Core
 {
     public class UsersDomain : IUsersDomain
     {
-        private readonly IUsersRepository _usersRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UsersDomain(IUsersRepository usersRepository)
+        public UsersDomain(IUnitOfWork unitOfWork)
         {
-            _usersRepository = usersRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public Users Authenticate(string username, string password)
         {
-            return _usersRepository.Authenticate(username, password);
+            return _unitOfWork.Users.Authenticate(username, password);
         }
     }
 }
