@@ -14,7 +14,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Injecti
     {
         public static IServiceCollection AddInjectionModule(this IServiceCollection services)
         {
-            services.AddSingleton<IConnectionFactory, ConnectionFactory>();
+            services.AddSingleton<DapperContext>();
             services.AddScoped<ICustomerApplication, CustomerApplication>();
             services.AddScoped<ICustomersDomain, CustomersDomain>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();

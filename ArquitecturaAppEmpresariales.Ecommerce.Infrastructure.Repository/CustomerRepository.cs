@@ -1,6 +1,6 @@
 ﻿using ArquitecturaAppEmpresariales.Ecommerce.Domain.Entity;
+using ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Data;
 using ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Interface;
-using ArquitecturaAppEmpresariales.Ecommerce.Transversal.Common;
 using Dapper;
 using System.Data;
 
@@ -8,18 +8,18 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Repository
 {
     public class CustomerRepository : ICustomerRepository
     {
-        private readonly IConnectionFactory _connectionFactory;
+        private readonly DapperContext _context;
 
-        public CustomerRepository(IConnectionFactory connectionFactory)
+        public CustomerRepository(DapperContext context)
         {
-            _connectionFactory = connectionFactory;
+            _context = context;
         }
 
         #region Métodos Síncronos        
 
         public bool Insert(Customers customers)
         {
-            using (var connection = _connectionFactory.GetConnection)
+            using (var connection = _context.CreateConnection())
             {
                 var query = "CustomersInsert";
                 var parameters = new DynamicParameters();
@@ -42,7 +42,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Repository
 
         public bool Update(Customers customers)
         {
-            using (var connection = _connectionFactory.GetConnection)
+            using (var connection = _context.CreateConnection())
             {
                 var query = "CustomersUpdate";
                 var parameters = new DynamicParameters();
@@ -65,7 +65,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Repository
 
         public bool Delete(string customerId)
         {
-            using (var connection = _connectionFactory.GetConnection)
+            using (var connection = _context.CreateConnection())
             {
                 var query = "CustomersDelete";
                 var parameters = new DynamicParameters();
@@ -77,7 +77,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Repository
 
         public Customers Get(string customerId)
         {
-            using (var connection = _connectionFactory.GetConnection)
+            using (var connection = _context.CreateConnection())
             {
                 var query = "CustomersGetByID";
                 var parameters = new DynamicParameters();
@@ -90,7 +90,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Repository
 
         public IEnumerable<Customers> GetAll()
         {
-            using (var connection = _connectionFactory.GetConnection)
+            using (var connection = _context.CreateConnection())
             {
                 var query = "CustomersList";
 
@@ -105,7 +105,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Repository
 
         public async Task<bool> InsertAsync(Customers customers)
         {
-            using (var connection = _connectionFactory.GetConnection)
+            using (var connection = _context.CreateConnection())
             {
                 var query = "CustomersInsert";
                 var parameters = new DynamicParameters();
@@ -128,7 +128,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Repository
 
         public async Task<bool> UpdateAsync(Customers customers)
         {
-            using (var connection = _connectionFactory.GetConnection)
+            using (var connection = _context.CreateConnection())
             {
                 var query = "CustomersUpdate";
                 var parameters = new DynamicParameters();
@@ -151,7 +151,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Repository
 
         public async Task<bool> DeleteAsync(string customerId)
         {
-            using (var connection = _connectionFactory.GetConnection)
+            using (var connection = _context.CreateConnection())
             {
                 var query = "CustomersDelete";
                 var parameters = new DynamicParameters();
@@ -163,7 +163,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Repository
 
         public async Task<Customers> GetAsync(string customerId)
         {
-            using (var connection = _connectionFactory.GetConnection)
+            using (var connection = _context.CreateConnection())
             {
                 var query = "CustomersGetByID";
                 var parameters = new DynamicParameters();
@@ -176,7 +176,7 @@ namespace ArquitecturaAppEmpresariales.Ecommerce.Infrastructure.Repository
 
         public async Task<IEnumerable<Customers>> GetAllAsync()
         {
-            using (var connection = _connectionFactory.GetConnection)
+            using (var connection = _context.CreateConnection())
             {
                 var query = "CustomersList";
 

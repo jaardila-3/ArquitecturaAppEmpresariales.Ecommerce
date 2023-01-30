@@ -11,8 +11,4 @@
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ArquitecturaAppEmpresariales.Ecommerce.Transversal.Common\ArquitecturaAppEmpresariales.Ecommerce.Transversal.Common.csproj" />
-  </ItemGroup>
-
 </Project>
