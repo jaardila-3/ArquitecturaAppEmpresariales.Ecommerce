@@ -8,7 +8,6 @@ using ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Validator;
 using ArquitecturaAppEmpresariales.Ecommerce.Services.WebApi.Modules.Versioning;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
