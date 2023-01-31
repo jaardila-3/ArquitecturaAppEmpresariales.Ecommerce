@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+    <PackageReference Include="WatchDog.NET" Version="1.4.2" />
   </ItemGroup>
 
   <ItemGroup>

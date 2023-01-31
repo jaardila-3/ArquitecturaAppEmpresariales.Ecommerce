@@ -32,11 +32,13 @@ namespace ArquitecturaAppEmpresariales.Application.Main
                 {
                     response.IsSuccess = true;
                     response.Message = "Registro Exitoso!!!";
+                    _logger.LogInformation("Se registró correctamente un nuevo cliente en la bd!!!");
                 }
             }
             catch (Exception e)
             {
                 response.Message = e.Message;
+                _logger.LogError($"ocurrió una excepción al insertar un nuevo cliente: {e.Message}");
             }
             return response;
         }
